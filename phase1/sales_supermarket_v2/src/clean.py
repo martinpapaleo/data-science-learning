@@ -1,58 +1,43 @@
 '''
 Clean:
-
 - Replace missing Gender with "Unknown"
 - Create Datetime by combining Date + Time using MM/DD/YYYY + HH:MM
 - Drop raw Date and Time
 - Drop Tax 5% and gross margin percentage
 - Ensure numeric columns are numeric (no silent object leftovers)
 '''
-
-import os
+from ingest import load_raw_data
 import pandas as pd
+df_raw_ = load_raw_data()
+def clean_raw_data(df_raw):
+    # Applying 'Unknown' to NaN values in Gender column
+    df_raw.loc[df_raw['Gender'].isnull(), 'Gender'] = 'Unknown'
 
-print("cwd:", os.getcwd())
-print("__file__:", __file__)
+    # Counting for validation
+    print(df_raw['Gender'].value_counts())
+    print(df_raw.head())
 
-src_dir = os.path.dirname(os.path.abspath(__file__))
-print("src_dir:", src_dir)
+    # Parsing Date and Time columns into Datetime column
 
-'''
-project_dir = os.path.dirname(src_dir)  # goes from /src to /sales_supermarket_v2
-raw_path = os.path.join(project_dir, "data", "raw", "supermarket_sales.csv")
-print("raw_path:", raw_path)
-'''
+    df_raw['Datetime'] = df_raw['Date'] + ' ' + df_raw['Time']
+    df_raw['Datetime'] = pd.to_datetime(df_raw['Datetime'])
+    print(df_raw['Datetime'])
 
-df = pd.read_csv('c:/Users/marti/Desktop/DataScience/DataScience/phase1/sales_supermarket_v2/data/raw/supermarket_sales.csv') #obtained from scr_dir and modifying it properly.
-print('loaded shape:',df.shape)
-print(df.head())
+    # Drop columns Time, Date, Tax 5% and gross margin percentage and verify
 
-# Applying 'Unknown' to NaN values in Gender column
-df.loc[df['Gender'].isnull(), 'Gender'] = 'Unknown'
+    del df_raw['Time']
+    del df_raw['Date']
+    del df_raw['Tax 5%']
+    del df_raw['gross margin percentage']
 
-# Counting for validation
-print(df['Gender'].value_counts())
-print(df.head())
+    print(df_raw.columns)
 
-# Parsing Date and Time columns into Datetime column
+    # Ensure all numeric columns are indeed numeric
+    print(df_raw.info())
 
-df['Datetime'] = df['Date'] + ' ' + df['Time']
-df['Datetime'] = pd.to_datetime(df['Datetime'])
-print(df['Datetime'])
-
-# Drop columns Time, Date, Tax 5% and gross margin percentage and verify
-
-del df['Time']
-del df['Date']
-del df['Tax 5%']
-del df['gross margin percentage']
-
-print(df.columns)
-
-# Ensure all numeric columns are indeed numeric
-print(df.info())
-
-# Deliverable outputs
-df_clean = df
-print(df_clean.head())
-print(df_clean.isnull().sum().sort_values(ascending=False).head(5))
+    # Deliverable outputs
+    df_clean = df_raw
+    print(df_clean.head())
+    print(df_clean.isnull().sum().sort_values(ascending=False).head(5))
+    return df_clean
+clean_raw_data(df_raw_)
