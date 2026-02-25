@@ -4,7 +4,7 @@ from validate import valid_clean_data
 from validate import value_pos_in_df
 import pandas as pd
 df_raw_ = load_raw_data()
-df_clean = clean_raw_data(df_raw_)
+df_clean = clean_raw_data(df_raw_, True)
 
 if valid_clean_data(df_clean):
     print('DF Valid')

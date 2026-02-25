@@ -7,33 +7,32 @@ Clean:
 - Ensure numeric columns are numeric (no silent object leftovers)
 '''
 import pandas as pd
-def clean_raw_data(df_raw):
+def clean_raw_data(df_raw, debug):
     df = df_raw.copy()
     # Applying 'Unknown' to NaN values in Gender column
     df.loc[df['Gender'].isnull(), 'Gender'] = 'Unknown'
 
     # Counting for validation
-    
-    print(df['Gender'].value_counts())
-    print(df.head())
+    if debug:
+        print(df['Gender'].value_counts())
+        print(df.head())
 
     # Parsing Date and Time columns into Datetime column
 
     df['Datetime'] = df['Date'] + ' ' + df['Time']
     df['Datetime'] = pd.to_datetime(df['Datetime'], format='mixed')
-    print(df['Datetime'])
+    if debug:
+        print(df['Datetime'])
 
     # Drop columns Time, Date, Tax 5% and gross margin percentage and verify
-
-    del df['Time']
-    del df['Date']
-    del df['Tax 5%']
-    del df['gross margin percentage']
-
-    print(df.columns)
+    columns_to_drop = ['Time', 'Date', 'Tax 5%', 'gross margin percentage']
+    df = df.drop(columns= columns_to_drop, axis=1)
+    if debug:
+        print(df.columns)
 
     # Ensure all numeric columns are indeed numeric
-    print(df.info())
+    if debug:
+        print(df.info())
 
     # Deliverable outputs
     df_clean = df
