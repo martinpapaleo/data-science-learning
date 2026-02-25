@@ -36,6 +36,7 @@ def clean_raw_data(df_raw, debug):
 
     # Deliverable outputs
     df_clean = df
+    print('DF Clean:')
     print(df_clean.head())
     print(df_clean.isnull().sum().sort_values(ascending=False).head(5))
     return df_clean
