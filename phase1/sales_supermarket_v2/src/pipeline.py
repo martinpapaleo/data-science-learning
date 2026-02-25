@@ -7,6 +7,6 @@ df_raw_ = load_raw_data()
 df_clean = clean_raw_data(df_raw_)
 
 if valid_clean_data(df_clean):
-    print('Yes')
+    print('DF Valid')
 else:
-    print('No')
+    print('DF Not Valid')

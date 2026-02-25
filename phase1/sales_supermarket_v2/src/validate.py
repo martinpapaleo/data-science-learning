@@ -1,16 +1,13 @@
 '''
+No duplicate Invoice_ID
+No nulls in required columns (your full list)
+Unit_price > 0
+Quantity >= 1
+Total > 0
+cogs > 0
 0 <= Rating <= 10
-
 Datetime is datetime dtype
-
 '''
-from ingest import load_raw_data
-from clean import clean_raw_data
-import pandas as pd
-df_raw_ = load_raw_data()
-df_clean = clean_raw_data(df_raw_)
-
-# DELETE ALL CODE ABOVE
 def value_pos_in_df(df_, col_name):
     if df_.loc[df_[col_name] <= 0].count().sum() != 0:
         return False
@@ -52,5 +49,9 @@ def valid_clean_data(data_):
     if data_.loc[(data_['Rating'] > 10) | (data_['Rating'] < 0)].count().sum() != 0:
         print('False7')
         return False
+
+    # Datetime type datetime[ns]
+    if data_['Datetime'].dtypes != pd.to_datetime(pd.Series('12/12/2002')).dtype:
+        print('False8')
+        return False
     return True
-valid_clean_data(df_clean)
