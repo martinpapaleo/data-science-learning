@@ -13,13 +13,14 @@ def clean_raw_data(df_raw):
     df.loc[df['Gender'].isnull(), 'Gender'] = 'Unknown'
 
     # Counting for validation
+    
     print(df['Gender'].value_counts())
     print(df.head())
 
     # Parsing Date and Time columns into Datetime column
 
     df['Datetime'] = df['Date'] + ' ' + df['Time']
-    df['Datetime'] = pd.to_datetime(df['Datetime'])
+    df['Datetime'] = pd.to_datetime(df['Datetime'], format='MM-DD-YYYY HH:MM')
     print(df['Datetime'])
 
     # Drop columns Time, Date, Tax 5% and gross margin percentage and verify
