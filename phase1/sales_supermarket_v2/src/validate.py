@@ -14,6 +14,7 @@ def value_pos_in_df(df_, col_name):
     return True
 
 def valid_clean_data(data_):
+    import pandas as pd
     # No duplicate Invoice_ID
     if data_['Invoice_ID'].shape != data_['Invoice_ID'].value_counts().shape:
         print('False1')
