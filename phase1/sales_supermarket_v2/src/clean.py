@@ -20,7 +20,7 @@ def clean_raw_data(df_raw):
     # Parsing Date and Time columns into Datetime column
 
     df['Datetime'] = df['Date'] + ' ' + df['Time']
-    df['Datetime'] = pd.to_datetime(df['Datetime'], format='MM-DD-YYYY HH:MM')
+    df['Datetime'] = pd.to_datetime(df['Datetime'], format='mixed')
     print(df['Datetime'])
 
     # Drop columns Time, Date, Tax 5% and gross margin percentage and verify
