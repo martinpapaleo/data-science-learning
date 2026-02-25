@@ -9,7 +9,7 @@ cogs > 0
 Datetime is datetime dtype
 '''
 def value_pos_in_df(df_, col_name):
-    if df_.loc[df_[col_name] <= 0].count().sum() != 0:
+    if (df_[col_name] <= 0).sum() != 0:
         return False
     return True
 
