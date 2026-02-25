@@ -17,28 +17,23 @@ def valid_clean_data(data_):
     import pandas as pd
     # No duplicate Invoice_ID
     if data_['Invoice_ID'].duplicated().sum == 0:
-        print('False1')
-        return False
+        raise ValueError("Invoice_ID column has duplicated values")
 
     # No nulls in required columns (your full list)
     if data_.isnull().sum().sum() != 0:
-        print('False2')
-        return False
+        raise ValueError("Null values detected")
     
     # Unit_price > 0 
     if not value_pos_in_df(data_, 'Unit_price'):
-        print('False3')
-        return False
+        raise ValueError("Unit_price column has values <= 0")
 
     # Total > 0
     if not value_pos_in_df(data_, 'Total'):
-        print('False4')
-        return False
+        raise ValueError("Total column has values <= 0")
 
     # cogs > 0
     if not value_pos_in_df(data_, 'cogs'):
-        print('False5')
-        return False
+        raise ValueError("cogs column has values <= 0")
     # I do know that Unit_price, Total and cogs could be chacked in one single line, but I'd want to differenciate with a differet print each possible fail
 
     # Quantity >= 1
@@ -52,7 +47,7 @@ def valid_clean_data(data_):
         return False
 
     # Datetime type datetime[ns]
-    if data_['Datetime'].dtypes != pd.to_datetime(pd.Series('12/12/2002')).dtype:
-        print('False8')
+    if not pd.api.types.is_datetime64_any_dtype(data_['Datetime']):
+        raise ValueError("Datetime column is not datetime dtype")
         return False
     return True
