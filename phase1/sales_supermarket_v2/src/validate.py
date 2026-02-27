@@ -16,7 +16,7 @@ def value_pos_in_df(df_, col_name):
 def valid_clean_data(data_):
     import pandas as pd
     # No duplicate Invoice_ID
-    if data_['Invoice_ID'].duplicated().sum == 0:
+    if data_['Invoice_ID'].duplicated().sum() != 0:
         raise ValueError("Invoice_ID column has duplicated values")
 
     # No nulls in required columns (your full list)
@@ -38,16 +38,13 @@ def valid_clean_data(data_):
 
     # Quantity >= 1
     if data_.loc[data_['Quantity'] < 1].count().sum() != 0:
-        print('False6')
-        return False
+        raise ValueError('Quantity column has values < 1')
     
     # 0 <= Rating <= 10
     if data_.loc[(data_['Rating'] > 10) | (data_['Rating'] < 0)].count().sum() != 0:
-        print('False7')
-        return False
+        raise ValueError('Rating column values not between 0 and 10 (included).')
 
     # Datetime type datetime[ns]
     if not pd.api.types.is_datetime64_any_dtype(data_['Datetime']):
         raise ValueError("Datetime column is not datetime dtype")
-        return False
     return True

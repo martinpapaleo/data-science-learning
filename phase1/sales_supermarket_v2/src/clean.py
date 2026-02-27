@@ -20,7 +20,7 @@ def clean_raw_data(df_raw, debug):
     # Parsing Date and Time columns into Datetime column
 
     df['Datetime'] = df['Date'] + ' ' + df['Time']
-    df['Datetime'] = pd.to_datetime(df['Datetime'], format='mixed')
+    df['Datetime'] = pd.to_datetime(df['Datetime'], format='%m/%d/%Y %H:%M')
     if debug:
         print(df['Datetime'])
 
@@ -36,7 +36,8 @@ def clean_raw_data(df_raw, debug):
 
     # Deliverable outputs
     df_clean = df
-    print('DF Clean:')
-    print(df_clean.head())
-    print(df_clean.isnull().sum().sort_values(ascending=False).head(5))
+    if debug:
+        print('DF Clean:')
+        print(df_clean.head())
+        print(df_clean.isnull().sum().sort_values(ascending=False).head(5))
     return df_clean
