@@ -13,7 +13,7 @@ def value_pos_in_df(df_, col_name):
         return False
     return True
 
-def valid_clean_data(data_):
+def valid_data(data_):
     import pandas as pd
     # No duplicate Invoice_ID
     if data_['Invoice_ID'].duplicated().sum() != 0:
@@ -47,4 +47,9 @@ def valid_clean_data(data_):
     # Datetime type datetime[ns]
     if not pd.api.types.is_datetime64_any_dtype(data_['Datetime']):
         raise ValueError("Datetime column is not datetime dtype")
+
+    time_columns = ['Year', 'Month', 'Day', 'Hour']
+    for i in time_columns:
+        if not pd.api.types.is_int64_dtype(data_(i)):
+            raise ValueError(f'{i} column has values which are not int dtype')
     return True
