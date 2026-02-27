@@ -1,8 +1,8 @@
-def t_valid_data(data_):
-    import pandas as pd          #delete block before finishing file
-
-    t_data = data_
-    return t_data
-import pandas as pd 
-from datetime import date
-print(pd.to_datetime(pd.Series('12/12/2002')).dtype)
+import pandas as pd
+def transform_data(data_):
+    data_['Year'] = data_['Datetime'].dt.year
+    data_['Month'] = data_['Datetime'].dt.month
+    data_['Day'] = data_['Datetime'].dt.day
+    data_['Weekday'] = data_['Datetime'].dt.day_name()
+    data_['Hour'] = data_['Datetime'].dt.hour
+    return data_
