@@ -48,8 +48,13 @@ def valid_data(data_):
     if not pd.api.types.is_datetime64_any_dtype(data_['Datetime']):
         raise ValueError("Datetime column is not datetime dtype")
 
+    # Time columns have int dtype
     time_columns = ['Year', 'Month', 'Day', 'Hour']
     for i in time_columns:
-        if not pd.api.types.is_int64_dtype(data_(i)):
+        if not pd.api.types.is_integer_dtype(data_[i]):
             raise ValueError(f'{i} column has values which are not int dtype')
+
+    # Weekday column has str dtype
+    if not pd.api.types.is_string_dtype(data_['Weekday']):
+            raise ValueError('Weekday column has values which are not int dtype')
     return True
