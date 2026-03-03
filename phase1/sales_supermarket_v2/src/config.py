@@ -9,3 +9,4 @@ PROCESSED_DIR = DATA_DIR / 'processed'
 RAW_FILENAME = RAW_DIR / 'supermarket_sales.csv'
 OUTPUT_FILENAME = PROCESSED_DIR / 'sales_clean.parquet'
 debug = False
+print('Hi')
